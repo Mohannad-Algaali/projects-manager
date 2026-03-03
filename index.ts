@@ -10,6 +10,7 @@ interface Flag {
 const ArgumentFlags: Flag[] = [
   { flag: "--add", command: addProject },
   { flag: "--remove", command: removeProject },
+
 ];
 const NonArguementFlags: Flag[] = [{ flag: "--list", command: listProjects }];
 
@@ -87,7 +88,14 @@ function addProject(projectName: string | undefined, projects: Array<Project>) {
   writeProjects(projects);
 }
 function listProjects(projects: Project[]) {
-  projects.forEach((project: Project) => console.log(project));
+  let count = 1
+  projects.forEach((project: Project) =>{
+  console.log(`${count}: ${project.name} -> path: ${project.path}`);
+  count++
+  });
+  if (count === 1) {
+    console.log("No projects found");
+  }
 }
 
 function ProcessArguementsFlags(projects: Project[], args: string[]) {
@@ -124,27 +132,7 @@ function ProcessNonArguementsFlags(projects: Project[], args: string[]) {
 
 async function main() {
   let projects = await readFromJson(FILE_PATH);
-  // console.log(projects)
   const args = Bun.argv.slice(2);
-  // console.log(args);
-  // if (args.includes("--add")) {
-  //   const projectName = args[args.indexOf("--add") + 1];
-  //   if (projectName !== undefined) {
-  //     addProject(projects, projectName);
-  //     return;
-  //   } else {
-  //     console.error("Please provide a project name");
-  //   }
-  // } else if (args.includes("--list")) {
-  //   listProjects(projects);
-  // } else if (args.includes("--remove")) {
-  //   const projectName = args[args.indexOf("--add") + 1];
-  //   removeProject(projectName, projects);
-  // } else {
-  //   goToProject(args[0], projects);
-  //   // console.log(getCurrentDirectory());
-  //   // console.log(args[0]);
-  // }
   const hasExecuted =
     ProcessArguementsFlags(projects, args) ||
     ProcessNonArguementsFlags(projects, args);

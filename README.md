@@ -1,5 +1,7 @@
 # project-manager
 
+This is a simple project manager, it helps you navigate your projects very quickly. 
+
 To install dependencies:
 
 ```bash
